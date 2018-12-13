@@ -20,7 +20,6 @@ if len(sys.argv) != 2:
     print("This program needs arg[1] for state string to react.")
     sys.exit(2)
 dataReact = json.loads(sys.argv[1])
-#print(dataReact)
 
 # create headers
 apiHeaders = {
