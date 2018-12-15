@@ -88,7 +88,7 @@ def setHDMIOff():
     return
 
 def wakeupBrowser(url):
-    proc = Popen("DISPLAY=:0 chromium-browser " + url, shell = True, stdout=PIPE, stderr=PIPE)
+    proc = Popen("sudo -u pi DISPLAY=:0 chromium-browser " + url, shell = True, stdout=PIPE, stderr=PIPE)
     return str(proc.pid)
 
 def getBrowserPID(url):
