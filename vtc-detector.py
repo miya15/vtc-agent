@@ -3,6 +3,7 @@
 import sys, os
 import json, requests
 from subprocess import Popen, PIPE
+import re
 
 # check env
 envApiUrl = os.environ.get('VTC_API_URL')
@@ -88,7 +89,7 @@ def setHDMIOff():
     return
 
 def wakeupBrowser(url):
-    proc = Popen("sudo -u pi DISPLAY=:0 chromium-browser " + url, shell = True, stdout=PIPE, stderr=PIPE)
+    proc = Popen("sudo -u pi DISPLAY=:0 chromium-browser --start-maximized '" + url + "'", shell = True, stdout=PIPE, stderr=PIPE)
     return str(proc.pid)
 
 def getBrowserPID(url):
@@ -125,6 +126,12 @@ else:
         print("create lock pid " + lockPID)
         url = getURL()
         print("url is " + url)
+        pattern = '[^\w:/\.\?=&]'
+        result = re.search(pattern, url)
+        if result:
+            print("can't use char " + result.group())
+            killProcess(lockPID)
+            sys.exit(1)
         setHDMIOn()
         browserPID = wakeupBrowser(url)
         print("browser pid is " + browserPID)
