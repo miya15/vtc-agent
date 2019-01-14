@@ -1,6 +1,6 @@
 # coding: utf-8
 
-import sys, os
+import sys, os, datetime, time
 import json, requests
 from subprocess import Popen, PIPE
 import re
@@ -75,10 +75,22 @@ def setHDMIOn():
     cmd = "echo 'on 0' | cec-client -s"
     proc = Popen(cmd, shell = True, stdin = PIPE, stdout = PIPE, stderr = PIPE)
     stdout_data, stderr_data = proc.communicate()
+    print("=== log HDMI on start ===")
+    print(stdout_data)
+    print("=== log HDMI on err ===")
+    print(stderr_data)
+    print("=== log HDMI on end ===")
+    time.sleep(5)
     # source self HDMI
     cmd = "echo 'as 0' | cec-client -s"
+    #cmd = "echo 'tx 1f:82:20:00' | cec-client -s"
     proc = Popen(cmd, shell = True, stdin = PIPE, stdout = PIPE, stderr = PIPE)
     stdout_data, stderr_data = proc.communicate()
+    print("=== log HDMI as start ===")
+    print(stdout_data)
+    print("=== log HDMI as err ===")
+    print(stderr_data)
+    print("=== log HDMI as end ===")
     return
 
 def setHDMIOff():
@@ -86,6 +98,11 @@ def setHDMIOff():
     cmd = "echo 'standby 0' | cec-client -s"
     proc = Popen(cmd, shell = True, stdin = PIPE, stdout = PIPE, stderr = PIPE)
     stdout_data, stderr_data = proc.communicate()
+    print("=== log HDMI standby start ===")
+    print(stdout_data)
+    print("=== log HDMI standby err ===")
+    print(stderr_data)
+    print("=== log HDMI standby end ===")
     return
 
 def wakeupBrowser(url):
@@ -113,6 +130,8 @@ for key in dataReact:
         break
 if targetKey == None:
     sys.exit(0)
+
+print("### " + str(datetime.datetime.now()))
 
 lockPID = getLockPID()
 print("lock PID " + lockPID)
